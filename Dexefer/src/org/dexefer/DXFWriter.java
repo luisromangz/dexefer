@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * This class extends <c>BufferedWriter</c> providing useful methods to create DXF files.
@@ -20,7 +21,7 @@ public class DXFWriter extends BufferedWriter {
 	 * @param oStream The OutputStream object where writing will be actually done.
 	 */
 	public DXFWriter(OutputStream oStream) {
-		super(new OutputStreamWriter(oStream));
+		super(new OutputStreamWriter(oStream,Charset.forName("UTF-8")));
 	}
 
 	/**
@@ -46,10 +47,9 @@ public class DXFWriter extends BufferedWriter {
 	 * @param value The element's value.
 	 * @throws IOException If it's launched by writing operations.
 	 */
-	public void writeEntry(int code, String value) throws IOException {
-		
+	public void writeEntry(int code, String value) throws IOException {		
 		this.write(CODE_PREFIX);
-		this.write(code);
+		this.write(String.valueOf(code));
 		this.newLine();
 		this.write(value);
 		this.newLine();

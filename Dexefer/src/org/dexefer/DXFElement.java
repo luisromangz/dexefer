@@ -2,7 +2,7 @@ package org.dexefer;
 
 
 /**
- * Defines the methods that make an class writable to a DXF file.
+ * Base interface for all elements in a DXF file.
  * 
  * @author luisro
  */

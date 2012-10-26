@@ -1,12 +1,13 @@
 package org.dexefer.sections;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.dexefer.annotations.DXFSubElements;
 import org.dexefer.annotations.DXFTerminator;
+import org.dexefer.annotations.DXFElementType;
 import org.dexefer.entities.Entity;
 
 import org.dexefer.DXFElement;
@@ -16,14 +17,15 @@ import org.dexefer.DXFElement;
  * 
  * @author luisro
  */
+@DXFElementType("SECTION")
 @DXFTerminator("ENDSEC")
 public class Entities implements DXFElement, Iterable<Entity>  {
 	@DXFSubElements
-	List<Entity> entityList;
+	List<Entity> entities;
 	
 	public Entities() {
 		
-		entityList = new ArrayList<Entity>();
+		entities = new ArrayList<Entity>();
 	}
 	
 	/**
@@ -32,7 +34,7 @@ public class Entities implements DXFElement, Iterable<Entity>  {
 	 * @return The calling object.
 	 */
 	public Entities add(Entity entity) {
-		entityList.add(entity);
+		entities.add(entity);
 		return this;
 	}
 	
@@ -42,7 +44,7 @@ public class Entities implements DXFElement, Iterable<Entity>  {
 	 * @return The calling object.
 	 */
 	public Entities remove(Entity entity) {
-		entityList.remove(entity);
+		entities.remove(entity);
 		return this;
 	}
 	
@@ -52,7 +54,7 @@ public class Entities implements DXFElement, Iterable<Entity>  {
 	 */
 	public Entities clear() {
 		
-		entityList.clear();
+		entities.clear();
 		return this;
 	}
 
@@ -61,8 +63,13 @@ public class Entities implements DXFElement, Iterable<Entity>  {
 	 */
 	@Override
 	public Iterator<Entity> iterator() {
-		return entityList.iterator();
+		return entities.iterator();		
 	}
 
-	
+	/**
+	 * Returns an unmodifiable version of the entities.
+	 */
+	public Iterable<Entity> getEntities(){
+		return Collections.unmodifiableCollection(entities);
+	}
 }
