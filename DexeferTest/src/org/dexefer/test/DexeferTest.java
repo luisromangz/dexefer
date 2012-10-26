@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.dexefer.DXFColor;
 import org.dexefer.DXFFile;
 import org.dexefer.entities.Line;
 
@@ -32,7 +33,9 @@ public class DexeferTest {
 		
 		
 		DXFFile file = new DXFFile();
-		file.getEntities().add(new Line(0, 0, 0, 100, 100, 100));
+		Line line  =new Line(0, 0, 0, 100, 100, 100);
+		line.setColorNumber(DXFColor.CYAN.getColorCode());
+		file.getEntities().add(line);
 		
 		FileOutputStream oStream;
 		try {
