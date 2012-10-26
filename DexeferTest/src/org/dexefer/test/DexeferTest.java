@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.dexefer.DXFColor;
 import org.dexefer.DXFFile;
+import org.dexefer.entities.Circle;
 import org.dexefer.entities.Line;
 
 public class DexeferTest {
@@ -36,6 +37,10 @@ public class DexeferTest {
 		Line line  =new Line(0, 0, 0, 100, 100, 100);
 		line.setColorNumber(DXFColor.CYAN.getColorCode());
 		file.getEntities().add(line);
+		
+		Circle circle = new Circle(100, 100, 100, 50);
+		circle.setColorNumber(DXFColor.RED.getColorCode());
+		file.getEntities().add(circle);
 		
 		FileOutputStream oStream;
 		try {

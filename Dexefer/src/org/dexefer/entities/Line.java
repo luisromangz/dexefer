@@ -18,7 +18,7 @@ package org.dexefer.entities;
 import org.dexefer.annotations.DXFProperty;
 
 /**
- * Defines a Line.
+ * Defines a drawing's Line entities.
  * @author luisro
  */
 public class Line extends Entity {
