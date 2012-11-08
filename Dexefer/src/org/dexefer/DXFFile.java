@@ -23,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.dexefer.annotations.DXFElementType;
+import org.dexefer.annotations.DXFPointProperty;
 import org.dexefer.annotations.DXFProperty;
 import org.dexefer.annotations.DXFSubElements;
 import org.dexefer.annotations.DXFTerminator;
@@ -94,14 +95,28 @@ public class DXFFile {
 		
 		// We iterate the fields.
 		for(Field f : eClass.getDeclaredFields()) {
-			
+			int nonNullProperties = 0;
+			DXFPointProperty pointPropertyA = f.getAnnotation(DXFPointProperty.class);
+			if(pointPropertyA!=null){
+				nonNullProperties++;
+			}
 			DXFProperty propertyA = f.getAnnotation(DXFProperty.class);
+			if(propertyA!=null) {
+				nonNullProperties++;
+			}
 			DXFSubElements subElementsA = f.getAnnotation(DXFSubElements.class);
+			if(subElementsA!=null){
+				nonNullProperties++;
+			}
 			
-			if(propertyA!=null && subElementsA!=null) {
-				// We can't have the both annotations.
-				throw new IllegalStateException(String.format("Field '%s' in class '%s' cannot have annotations DXFProperty and DXFSubElements at the same time."));				
-			} else  if(propertyA!=null) {
+			if(nonNullProperties==0){
+				continue;
+			} else if(nonNullProperties>1) {
+				throw new IllegalStateException(String.format("Field '%s' in class '%s' cannot have more than one annotation defining the field at the same time."));
+			}
+			
+			
+			 if(propertyA!=null) {
 				// We write the property's value, if it's not null (optional).
 				Object value =  getFieldValue(eClass,f, element);
 				if(value!=null){
@@ -117,6 +132,16 @@ public class DXFFile {
 				for(DXFElement subElement : (Iterable<? extends DXFElement>)collection){
 					writeElement(writer, subElement);
 				}
+			} else if(pointPropertyA!=null){
+				Object point = getFieldValue(eClass,f,  element);
+				if(!DXFPoint.class.isInstance(point)){
+					throw new IllegalStateException(String.format("The field '%s' is not a DXFPoint so it cannot use the @DXFPointProperties annotation."));
+				}
+				
+				DXFPoint p = (DXFPoint)point;
+				writer.writeEntry(pointPropertyA.xCode(), p.X+"");
+				writer.writeEntry(pointPropertyA.yCode(), p.X+"");
+				writer.writeEntry(pointPropertyA.zCode(), p.Z+"");
 			}
 		}		
 	}

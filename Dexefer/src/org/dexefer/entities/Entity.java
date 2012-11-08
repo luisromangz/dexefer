@@ -30,7 +30,7 @@ public abstract class Entity implements DXFElement {
 	
 	@DXFProperty(8)
 	private
-	String layerName;
+	String layerName = "Default";
 	
 	@DXFProperty(6)
 	private
