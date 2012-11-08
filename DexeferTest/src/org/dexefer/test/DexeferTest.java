@@ -26,6 +26,7 @@ import org.dexefer.DXFPoint;
 import org.dexefer.entities.AlignedDimension;
 import org.dexefer.entities.Circle;
 import org.dexefer.entities.Line;
+import org.dexefer.entities.Text;
 
 public class DexeferTest {
 
@@ -48,6 +49,11 @@ public class DexeferTest {
 		
 		AlignedDimension aDim = new AlignedDimension(start, end);
 		file.getEntities().add(aDim);
+		
+		Text text = new Text("Lorem ipsum dolor \\psit amet, consectetuer...", new DXFPoint(200,100));
+		text.setJustification(Text.JUSTIFICATION_CENTER);
+		text.setVerticalAlignment(Text.VALIGN_TOP);
+		file.getEntities().add(text);
 		
 		FileOutputStream oStream;
 		try {
