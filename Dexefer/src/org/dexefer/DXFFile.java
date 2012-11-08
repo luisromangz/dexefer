@@ -134,13 +134,17 @@ public class DXFFile {
 				}
 			} else if(pointPropertyA!=null){
 				Object point = getFieldValue(eClass,f,  element);
+				if(point==null){
+					continue;
+				}
+				
 				if(!DXFPoint.class.isInstance(point)){
 					throw new IllegalStateException(String.format("The field '%s' is not a DXFPoint so it cannot use the @DXFPointProperties annotation."));
 				}
 				
 				DXFPoint p = (DXFPoint)point;
 				writer.writeEntry(pointPropertyA.xCode(), p.X+"");
-				writer.writeEntry(pointPropertyA.yCode(), p.X+"");
+				writer.writeEntry(pointPropertyA.yCode(), p.Y+"");
 				writer.writeEntry(pointPropertyA.zCode(), p.Z+"");
 			}
 		}		

@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.dexefer.DXFColor;
 import org.dexefer.DXFFile;
 import org.dexefer.DXFPoint;
+import org.dexefer.entities.AlignedDimension;
 import org.dexefer.entities.Circle;
 import org.dexefer.entities.Line;
 
@@ -33,15 +34,20 @@ public class DexeferTest {
 	 */
 	public static void main(String[] args) {
 		
+		DXFPoint start = new DXFPoint(0, 0, 0);
+		DXFPoint end = new DXFPoint(100, 100, 100);
 		
 		DXFFile file = new DXFFile();
-		Line line  =new Line(new DXFPoint(0, 0, 0),new DXFPoint(100, 100, 100));
+		Line line  =new Line(start,end);
 		line.setColorNumber(DXFColor.CYAN.getColorCode());
 		file.getEntities().add(line);
 		
-		Circle circle = new Circle(new DXFPoint(100, 100, 100), 50);
+		Circle circle = new Circle(end, 50);
 		circle.setColorNumber(DXFColor.RED.getColorCode());
 		file.getEntities().add(circle);
+		
+		AlignedDimension aDim = new AlignedDimension(start, end);
+		file.getEntities().add(aDim);
 		
 		FileOutputStream oStream;
 		try {
