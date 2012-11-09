@@ -50,7 +50,8 @@ public class DexeferTest {
 		AlignedDimension aDim = new AlignedDimension(start, end);
 		file.getEntities().add(aDim);
 		
-		Text text = new Text("Lorem ipsum dolor \\psit amet, consectetuer...", new DXFPoint(200,100));
+		Text text = new Text("Lorem ipsum dolor sit amet, consectetuer...", new DXFPoint(200,100));
+		text.setTextHeight(10);
 		text.setJustification(Text.JUSTIFICATION_CENTER);
 		text.setVerticalAlignment(Text.VALIGN_TOP);
 		file.getEntities().add(text);
