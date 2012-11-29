@@ -27,7 +27,7 @@ public abstract class Table implements DXFElement {
 	private String marker="AcDbSymbolTableRecord";	
 	
 
-	public int getHandler() {
+	public Integer getHandler() {
 		return handler;
 	}
 

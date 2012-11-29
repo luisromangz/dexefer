@@ -44,5 +44,5 @@ public @interface DXFPointProperty {
 	 * The code of the Z component of the point, as speficied in the DXF file format.
 	 * @return
 	 */
-	public int zCode();
+	public int zCode() default -1;
 }

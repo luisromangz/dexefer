@@ -27,6 +27,7 @@ import org.dexefer.entities.AlignedDimension;
 import org.dexefer.entities.Circle;
 import org.dexefer.entities.Line;
 import org.dexefer.entities.Text;
+import org.dexefer.tables.VPort;
 
 public class DexeferTest {
 
@@ -39,6 +40,9 @@ public class DexeferTest {
 		DXFPoint end = new DXFPoint(100, 100, 100);
 		
 		DXFFile file = new DXFFile();
+		
+		file.getTables().add(new VPort(new DXFPoint(0, 0), 1));
+		
 		Line line  =new Line(start,end);
 		line.setColorNumber(DXFColor.CYAN.getColorCode());
 		file.getEntities().add(line);

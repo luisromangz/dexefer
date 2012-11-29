@@ -21,13 +21,18 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.dexefer.annotations.DXFElementType;
 import org.dexefer.annotations.DXFPointProperty;
 import org.dexefer.annotations.DXFProperty;
 import org.dexefer.annotations.DXFSubElements;
 import org.dexefer.annotations.DXFTerminator;
+import org.dexefer.annotations.DXFValueMap;
 import org.dexefer.sections.Entities;
+import org.dexefer.sections.Header;
+import org.dexefer.sections.Tables;
 
 /**
  * Allows defining the structure of a DXF file.
@@ -36,13 +41,25 @@ import org.dexefer.sections.Entities;
  */
 public class DXFFile {
 	
+	Header header;
 	Entities entities;
+	Tables tables;
 	
 	/**
 	 * Creates an empty (without entities) DXFFile instance.
 	 */
 	public DXFFile() {
+		header = new Header();
 		entities = new Entities();
+		tables = new Tables();
+	}
+	
+	/**
+	 * Gets the DXF file's header.
+	 * @return
+	 */
+	public Header getHeader(){
+		return header;
 	}
 	
 	/**
@@ -53,9 +70,21 @@ public class DXFFile {
 		return entities;
 	}
 	
+	/**
+	 * Returns the tables contained in the DXF file.
+	 * @return
+	 */
+	public Tables getTables(){
+		return tables;	
+	}
+	
 	public void write(OutputStream output) throws IOException {
 		DXFWriter writer = new DXFWriter(output);
 		
+		writer.writeEntry(999, "Dexefer");
+		
+		writeElement(writer, header);
+		writeElement(writer,tables);
 		writeElement(writer, entities);
 		
 		writer.writeEntry(0, "EOF");		
@@ -68,7 +97,7 @@ public class DXFFile {
 		DXFElementType elementTypeA = eClass.getAnnotation(DXFElementType.class);
 		if(elementTypeA==null) {
 			writer.writeEntry(0, className);	
-		} else {
+		} else if(elementTypeA.shown()){
 			writer.writeEntry(0, elementTypeA.value());
 			writer.writeEntry(2, className);
 		}	
@@ -108,6 +137,10 @@ public class DXFFile {
 			if(subElementsA!=null){
 				nonNullProperties++;
 			}
+			DXFValueMap valueMapA = f.getAnnotation(DXFValueMap.class);
+			if(valueMapA!=null){
+				nonNullProperties++;				
+			}
 			
 			if(nonNullProperties==0){
 				continue;
@@ -139,13 +172,27 @@ public class DXFFile {
 				}
 				
 				if(!DXFPoint.class.isInstance(point)){
-					throw new IllegalStateException(String.format("The field '%s' is not a DXFPoint so it cannot use the @DXFPointProperties annotation."));
+					throw new IllegalStateException(String.format("The field '%s' is not a DXFPoint so it cannot be applied the @DXFPointProperties annotation."));
 				}
 				
 				DXFPoint p = (DXFPoint)point;
 				writer.writeEntry(pointPropertyA.xCode(), p.X+"");
 				writer.writeEntry(pointPropertyA.yCode(), p.Y+"");
-				writer.writeEntry(pointPropertyA.zCode(), p.Z+"");
+				if(pointPropertyA.zCode()>=0){
+					// If negative, it means that it doesn't need to be set.					
+					writer.writeEntry(pointPropertyA.zCode(), p.Z+"");
+				}
+			} else if(valueMapA!=null) {
+				Object map = getFieldValue(eClass,f,element);
+				if(!Map.class.isInstance(map)) {
+					throw new IllegalStateException(String.format(
+							"The field '%s' is not a Map so it cannot be applied the @DXFValueMap annotation."));
+				}
+				
+				Map<Integer,Object> m = (Map<Integer,Object>) map;
+				for(Entry<Integer, Object> e: m.entrySet()){
+					writer.writeEntry(e.getKey(), e.getValue().toString());
+				}
 			}
 		}		
 	}

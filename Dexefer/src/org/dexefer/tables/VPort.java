@@ -19,8 +19,10 @@ import org.dexefer.DXFPoint;
 import org.dexefer.annotations.DXFElementType;
 import org.dexefer.annotations.DXFPointProperty;
 import org.dexefer.annotations.DXFProperty;
+import org.dexefer.annotations.DXFTerminator;
 
 @DXFElementType("TABLE")
+@DXFTerminator("ENDTAB")
 public class VPort extends Table {
 
 	@DXFProperty(100)
@@ -29,29 +31,66 @@ public class VPort extends Table {
 	@DXFProperty(2)
 	private String name="*ACTIVE";
 	
-	@DXFPointProperty(xCode=10,yCode=20,zCode=30)
-	private DXFPoint leftBottom;
-	@DXFPointProperty(xCode=11,yCode=21,zCode=31)
-	private DXFPoint rightTop;
+	@DXFPointProperty(xCode=12,yCode=22)
+	private DXFPoint center;
+	
+	@DXFProperty(40)
+	private int viewHeight;
+	
+	@DXFProperty(41)
+	private double viewRatio = 1.57620320856;
+	
+	public VPort(DXFPoint center, int viewHeight) {		
+		this.center = center;
+		this.viewHeight = viewHeight;
+	}
 	
 	public String getSubMarker() {
 		return subMarker;
 	}
 	
-	public DXFPoint getLeftBottom(){
-		return leftBottom;
-	}
 	
-	public DXFPoint getRightTop(){
-		return rightTop;
-	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public VPort setName(String name) {
 		this.name = name;
+		return this;
+	}
+
+
+
+	public DXFPoint getCenter() {
+		return center;
+	}
+
+ 
+
+
+	public int getViewHeight() {
+		return viewHeight;
+	}
+
+
+
+	public VPort setViewHeight(int viewHeight) {
+		this.viewHeight = viewHeight;
+		return this;
+	}
+
+
+
+	public double getViewRatio() {
+		return viewRatio;
+	}
+
+
+
+	public VPort setViewRatio(double viewRatio) {
+		this.viewRatio = viewRatio;
+		return this;
 	}
 
 	
