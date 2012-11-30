@@ -83,8 +83,8 @@ public class DXFFile {
 		
 		writer.writeEntry(999, "Dexefer");
 		
-		writeElement(writer, header);
-		writeElement(writer,tables);
+		//writeElement(writer, header);
+		//writeElement(writer,tables);
 		writeElement(writer, entities);
 		
 		writer.writeEntry(0, "EOF");		
@@ -99,7 +99,9 @@ public class DXFFile {
 			writer.writeEntry(0, className);	
 		} else if(elementTypeA.shown()){
 			writer.writeEntry(0, elementTypeA.value());
-			writer.writeEntry(2, className);
+			if(elementTypeA.showClassName()){
+				writer.writeEntry(2, className);
+			}
 		}	
 		
 		writeElementFields(writer, element, eClass);

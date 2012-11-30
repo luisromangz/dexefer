@@ -36,4 +36,6 @@ public @interface DXFElementType {
 	String value();
 	
 	boolean shown() default true;
+	
+	boolean showClassName() default true;
 }

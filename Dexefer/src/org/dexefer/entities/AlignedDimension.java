@@ -25,11 +25,11 @@ import org.dexefer.annotations.DXFProperty;
  * @author luisro
  *
  */
-@DXFElementType("DIMENSION")
+@DXFElementType(value="DIMENSION", showClassName=false)
 public class AlignedDimension extends Dimension {
 
 	@DXFProperty(100)
-	private String subMarker="AcDbAlignedDimension";
+	private String entityMarker="AcDbAlignedDimension";
 	
 	@DXFPointProperty(xCode=13,yCode=23,zCode=33)
 	private DXFPoint start;
@@ -60,8 +60,8 @@ public class AlignedDimension extends Dimension {
 		
 	}
 	
-	public String getSubMarker(){
-		return subMarker;	
+	public String getEntityMarker(){
+		return entityMarker;	
 	}
 	
 	public DXFPoint getStart(){

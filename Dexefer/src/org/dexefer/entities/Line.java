@@ -24,7 +24,8 @@ import org.dexefer.annotations.DXFProperty;
  * @author luisro
  */
 public class Line extends Entity {
-	
+	@DXFProperty(100)
+	private String entityMarker="AcDbLine";
 	
 	@DXFProperty(39)
 	private Integer thickness;
@@ -43,6 +44,10 @@ public class Line extends Entity {
 		this.start=p0;
 		this.end =p1;
 		
+	}
+	
+	public String getEntityMarker(){
+		return entityMarker;
 	}
 	
 	public Integer getThickness() {

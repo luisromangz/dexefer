@@ -28,6 +28,9 @@ public abstract class Entity implements DXFElement {
 	private
 	Integer handle;
 	
+	@DXFProperty(100)
+	private String classMarker="AcDbEntity";
+	
 	@DXFProperty(8)
 	private
 	String layerName = "Default";
@@ -38,7 +41,7 @@ public abstract class Entity implements DXFElement {
 	
 	@DXFProperty(62)
 	private
-	String colorNumber = "BYLAYER";
+	int colorNumber = 0;
 	
 	@DXFProperty(48)
 	private
@@ -46,6 +49,10 @@ public abstract class Entity implements DXFElement {
 
 	public Integer getHandle() {
 		return handle;
+	}
+	
+	public String getClassMarker(){
+		return classMarker;
 	}
 
 	public void setHandle(Integer handle) {
@@ -68,11 +75,11 @@ public abstract class Entity implements DXFElement {
 		this.lineTypeName = lineTypeName;
 	}
 
-	public String getColorNumber() {
+	public int getColorNumber() {
 		return colorNumber;
 	}
 
-	public void setColorNumber(String colorNumber) {
+	public void setColorNumber(int colorNumber) {
 		this.colorNumber = colorNumber;
 	}
 
@@ -83,5 +90,7 @@ public abstract class Entity implements DXFElement {
 	public void setLineTypeScale(Double lineTypeScale) {
 		this.lineTypeScale = lineTypeScale;
 	}
+	
+	public abstract String getEntityMarker();
 
 }

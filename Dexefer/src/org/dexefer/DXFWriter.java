@@ -65,8 +65,8 @@ public class DXFWriter extends BufferedWriter {
 	public void writeEntry(int code, String value) throws IOException {		
 		this.write(CODE_PREFIX);
 		this.write(String.valueOf(code));
-		this.newLine();
+		this.write("\r\n");
 		this.write(value);
-		this.newLine();
+		this.write("\r\n");
 	}
 }

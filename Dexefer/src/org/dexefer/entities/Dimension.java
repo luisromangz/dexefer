@@ -21,6 +21,7 @@ import org.dexefer.annotations.DXFProperty;
 
 public abstract class Dimension extends Entity {
 	
+	private static int dimCount =0;
 	
 	/**
 	 * The string used to 
@@ -29,6 +30,9 @@ public abstract class Dimension extends Entity {
 	
 	@DXFProperty(100)
 	private String marker="AcDbDimension";
+	
+	@DXFProperty(2)
+	private String dimBlock;
 	
 	/**
 	 * The point that defines the position of the dimension line.
@@ -47,12 +51,7 @@ public abstract class Dimension extends Entity {
 	 */
 	@DXFProperty(70)
 	protected int dimensionType;
-	
-	/**
-	 * Attachment type. 
-	 */
-	@DXFProperty(71)
-	private int attachmentType=5;
+
 	
 	/**
 	 * The dimension displayed text. Use MEASUREMENT_TEXT combined with suffixes/prefixes to get desired text.
@@ -61,7 +60,8 @@ public abstract class Dimension extends Entity {
 	private String dimensionText=MEASUREMENT_TEXT;
 
 	public Dimension() {
-		
+		dimCount++;
+		dimBlock = "D"+dimCount;
 	}
 	
 	public DXFPoint getDefinitionPoint() {
@@ -92,9 +92,7 @@ public abstract class Dimension extends Entity {
 		return marker;
 	}
 
-
-	public int getAttachmentType(){
-		return attachmentType;
+	public String getDimBlock(){
+		return dimBlock;
 	}
-	
 }

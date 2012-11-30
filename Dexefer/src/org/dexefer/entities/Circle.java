@@ -25,6 +25,9 @@ import org.dexefer.annotations.DXFProperty;
  *
  */
 public class Circle extends Entity {
+	
+	@DXFProperty(100)
+	private String entityMarker = "AcDbCircle";
 
 	@DXFProperty(39)
 	private
@@ -67,5 +70,9 @@ public class Circle extends Entity {
 			throw new IllegalArgumentException("Circle radius can't be a negative number!");
 		}
 		this.radius = radius;
+	}
+	
+	public String getEntityMarker(){
+		return entityMarker;
 	}
 }

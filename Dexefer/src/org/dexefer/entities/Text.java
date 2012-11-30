@@ -29,7 +29,7 @@ public class Text extends Entity {
 	public static final int VALIGN_TOP=3;
 
 	@DXFProperty(100)
-	private String marker="AcDbText";
+	private String entityMarker="AcDbText";
 	
 	@DXFProperty(39)
 	private int thickness=0;
@@ -73,8 +73,8 @@ public class Text extends Entity {
 	}
 	
 	
-	public String getMarker(){
-		return marker;
+	public String getEntityMarker(){
+		return entityMarker;
 	}
 
 
